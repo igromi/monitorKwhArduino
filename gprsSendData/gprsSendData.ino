@@ -10,9 +10,9 @@
 */
 
 // Your GPRS credentials (leave empty, if not needed)
-const char apn[]      = "virgin"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
-const char gprsUser[] = ""; // GPRS User
-const char gprsPass[] = ""; // GPRS Password
+const char apn[]      = "imovil.entelpcs.cl"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
+const char gprsUser[] = "entelpcs"; // GPRS User
+const char gprsPass[] = "entelpcs"; // GPRS Password
 
 // SIM card PIN (leave empty, if not defined)
 const char simPIN[]   = ""; 
@@ -23,6 +23,13 @@ const char server[] = "66.85.77.14"; // domain name: example.com, maker.ifttt.co
 const char resource[] = "/api/v1/4vS8SuInT0Do49kvmhjL/telemetry";         // resource path, for example: /post-data.php
 const int  port = 8080;                             // server port number
 
+
+//Variables energía
+String KWH;
+String A;
+String V;
+String W;
+String FactorP;
 
 // TTGO T-Call pins
 #define MODEM_RST            5
@@ -117,8 +124,6 @@ void setup() {
     modem.simUnlock(simPIN);
   }
   
- 
-
   // Configure the wake up source as timer wake up  
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
 }
@@ -142,8 +147,16 @@ void loop() {
     
       // Making an HTTP POST request
       SerialMon.println("Performing HTTP POST request...");
-      // Prepare your HTTP POST request data (Temperature in Celsius degrees)
-      String httpRequestData = "{\"EnergiaKWH\": 150}";
+
+      KWH=String(random(5,10));
+      A=String(random(1,10));
+      V=String(random(220,230));
+      W=String(random(220,2300));
+      FactorP=String(0.9);
+
+      String httpRequestData = "{\"KWH\": "+KWH+",\"FactorP\": "+FactorP+",\"V\": "+V+",\"A\":"+A+",\"W\": "+W+"}";
+
+      SerialMon.println(httpRequestData);
     
       client.print(String("POST ") + resource + " HTTP/1.1\r\n");
       client.print(String("Host: ") + server + "\r\n");
