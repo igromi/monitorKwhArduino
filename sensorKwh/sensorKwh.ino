@@ -1,6 +1,6 @@
 #include <PZEM004Tv30.h>
 
-PZEM004Tv30 pzem(&Serial);  // Menggunakan Hardware Serial 3
+PZEM004Tv30 pzem(11, 12);
 
 void setup() {
    Serial.begin(115200);
