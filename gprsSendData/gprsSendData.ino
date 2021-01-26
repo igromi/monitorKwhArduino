@@ -49,6 +49,11 @@ String FactorP;
 #define TINY_GSM_MODEM_SIM800      // Modem is SIM800
 #define TINY_GSM_RX_BUFFER   1024  // Set RX buffer to 1Kb
 
+//Serial pra conectar con arduino
+#define RXD2 19
+#define TXD2 18
+
+
 // Define the serial console for debug prints, if needed
 //#define DUMP_AT_COMMANDS
 
@@ -63,7 +68,6 @@ String FactorP;
   TinyGsm modem(SerialAT);
 #endif
 
-#include <Adafruit_Sensor.h>
 
 // I2C for SIM800 (to keep it running when powered from battery)
 TwoWire I2CPower = TwoWire(0);
@@ -93,7 +97,7 @@ bool setPowerBoostKeepOn(int en){
 void setup() {
   // Set serial monitor debugging window baud rate to 115200
   SerialMon.begin(115200);
-
+  Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
   // Start I2C communication
   I2CPower.begin(I2C_SDA, I2C_SCL, 400000);
 
@@ -148,13 +152,20 @@ void loop() {
       // Making an HTTP POST request
       SerialMon.println("Performing HTTP POST request...");
 
+      // Generando data de prueba
       KWH=String(random(5,10));
       A=String(random(1,10));
       V=String(random(220,230));
       W=String(random(220,2300));
       FactorP=String(0.9);
+      
+      String httpRequestData = "XX";
 
-      String httpRequestData = "{\"KWH\": "+KWH+",\"FactorP\": "+FactorP+",\"V\": "+V+",\"A\":"+A+",\"W\": "+W+"}";
+      while (Serial2.available()) {
+             
+              httpRequestData=Serial2.readString();
+    
+        }
 
       SerialMon.println(httpRequestData);
     

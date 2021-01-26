@@ -4,6 +4,7 @@ PZEM004Tv30 pzem(11, 12);
 
 void setup() {
    Serial.begin(115200);
+   Serial1.begin(9600);
 }
 
 void loop() {
@@ -12,6 +13,12 @@ void loop() {
          Serial.print("Voltage: "); 
          Serial.print(voltage);
          Serial.println("V");
+         
+         Serial1.print("{\"V\":");
+         Serial1.print(voltage);
+         Serial1.print("}");
+         delay(60000);
+          
      } else {
          Serial.println("Error reading voltage");
      }
@@ -21,6 +28,12 @@ void loop() {
          Serial.print("Current: ");
          Serial.print(current);
          Serial.println("A");
+         
+         Serial1.print("{\"A\":");
+         Serial1.print(current);
+         Serial1.print("}");
+         delay(60000);
+         
      } else {
          Serial.println("Error reading current");
      }
@@ -30,6 +43,12 @@ void loop() {
          Serial.print("Power: ");
          Serial.print(power);
          Serial.println("W");
+
+         Serial1.print("{\"W\":");
+         Serial1.print(power);
+         Serial1.print("}");
+         delay(60000);
+         
      } else {
          Serial.println("Error reading power");
      }
@@ -39,6 +58,12 @@ void loop() {
          Serial.print("Energy: ");
          Serial.print(energy,3);
          Serial.println("kWh");
+
+         Serial1.print("{\"KWH\":");
+         Serial1.print(energy);
+         Serial1.print("}");
+         delay(60000);
+         
      } else {
          Serial.println("Error reading energy");
      }
@@ -56,6 +81,13 @@ void loop() {
      if(current != NAN){
          Serial.print("PF: ");
          Serial.println(pf);
+
+         Serial1.print("{\"FactorP\":");
+         Serial1.print(pf);
+         Serial1.print("}");
+         delay(60000);
+
+         
      } else {
          Serial.println("Error reading power factor");
      }
