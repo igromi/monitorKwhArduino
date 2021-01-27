@@ -73,7 +73,6 @@ String FactorP;
 TwoWire I2CPower = TwoWire(0);
 
 
-
 // TinyGSM Client for Internet connection
 TinyGsmClient client(modem);
 
@@ -133,6 +132,18 @@ void setup() {
 }
 
 void loop() {
+
+ String httpRequestData = "XX";
+
+ while (Serial2.available()) {
+
+              SerialMon.println("Leyendo sensor: ");
+              httpRequestData=Serial2.readString();
+              SerialMon.println(httpRequestData);
+          };
+
+  SerialMon.println(httpRequestData);
+    
   SerialMon.print("Connecting to APN: ");
   SerialMon.print(apn);
   if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
@@ -151,24 +162,8 @@ void loop() {
     
       // Making an HTTP POST request
       SerialMon.println("Performing HTTP POST request...");
-
-      // Generando data de prueba
-      KWH=String(random(5,10));
-      A=String(random(1,10));
-      V=String(random(220,230));
-      W=String(random(220,2300));
-      FactorP=String(0.9);
       
-      String httpRequestData = "XX";
 
-      while (Serial2.available()) {
-             
-              httpRequestData=Serial2.readString();
-    
-        }
-
-      SerialMon.println(httpRequestData);
-    
       client.print(String("POST ") + resource + " HTTP/1.1\r\n");
       client.print(String("Host: ") + server + "\r\n");
       client.println("Connection: close");
