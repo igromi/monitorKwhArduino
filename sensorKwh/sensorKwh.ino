@@ -1,6 +1,8 @@
 #include <PZEM004Tv30.h>
 
-PZEM004Tv30 pzem(11, 12);
+
+SoftwareSerial Serial1(8, 9); // RX, TX
+PZEM004Tv30 pzem(10,11);
 
 void setup() {
    Serial.begin(115200);
@@ -78,7 +80,7 @@ void loop() {
          Serial1.print("\"FactorP\":");
          Serial1.print(pf);
          Serial1.print("}");
-         delay(15000);
+         delay(5000);
 
          
      } else {
