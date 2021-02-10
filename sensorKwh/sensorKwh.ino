@@ -1,8 +1,8 @@
 #include <PZEM004Tv30.h>
 
 
-SoftwareSerial Serial1(8, 9); // RX, TX
-PZEM004Tv30 pzem(10,11);
+SoftwareSerial Serial1(10, 11); // RX, TX
+PZEM004Tv30 pzem(8,9);
 
 void setup() {
    Serial.begin(115200);

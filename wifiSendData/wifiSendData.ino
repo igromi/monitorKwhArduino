@@ -74,14 +74,6 @@ void loop() {
               
       // Send HTTP POST request
       int httpResponseCode = http.POST(httpRequestData);
-      
-      // If you need an HTTP request with a content type: application/json, use the following:
-      //http.addHeader("Content-Type", "application/json");
-      //int httpResponseCode = http.POST("{\"api_key\":\"tPmAT5Ab3j7F9\",\"sensor\":\"BME280\",\"value1\":\"24.25\",\"value2\":\"49.54\",\"value3\":\"1005.14\"}");
-
-      // If you need an HTTP request with a content type: text/plain
-      //http.addHeader("Content-Type", "text/plain");
-      //int httpResponseCode = http.POST("Hello, World!");
      
       Serial.print("HTTP Response code: ");
       Serial.println(httpResponseCode);
