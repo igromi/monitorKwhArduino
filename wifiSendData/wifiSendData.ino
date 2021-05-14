@@ -11,17 +11,19 @@
 
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <esp_task_wdt.h>
+#define WDT_TIMEOUT 20
 #define SerialMon Serial
 
 //Serial pra conectar con arduino
 #define RXD2 19
 #define TXD2 18
 
-const char* ssid = "WifiAX";
-const char* password = "hkmhkm1234566";
+const char* ssid = "oficina";
+const char* password = "imagina12";
 
 //Your Domain name with URL path or IP address with path
-const char* serverName = "http://66.85.77.14:8080/api/v1/4vS8SuInT0Do49kvmhjL/telemetry";
+const char* serverName = "https://iot.igromi.com/api/v1/4vS8SuInT0Do49kvmhjL/telemetry";
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
@@ -32,6 +34,10 @@ unsigned long lastTime = 0;
 unsigned long timerDelay = 2000;
 
 void setup() {
+
+  esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
+  esp_task_wdt_add(NULL); //add current thread to WDT watch 
+
   Serial.begin(115200);
   Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
   WiFi.begin(ssid, password);
@@ -77,6 +83,11 @@ void loop() {
      
       Serial.print("HTTP Response code: ");
       Serial.println(httpResponseCode);
+      if (httpResponseCode==200)
+         {
+          esp_task_wdt_reset(); 
+          Serial.println("WDT borrado"); 
+         };
         
       // Free resources
       http.end();
